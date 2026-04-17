@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+D:/FirstProject_CEEC/rfid_firmware/build/CMakeFiles/bootloader
+D:/FirstProject_CEEC/rfid_firmware/build/CMakeFiles/bootloader.rule
+D:/FirstProject_CEEC/rfid_firmware/build/CMakeFiles/bootloader-complete.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+D:/FirstProject_CEEC/rfid_firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

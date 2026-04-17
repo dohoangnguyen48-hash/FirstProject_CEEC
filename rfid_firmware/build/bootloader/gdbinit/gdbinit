@@ -1,0 +1,2 @@
+source D:/FirstProject_CEEC/rfid_firmware/build/bootloader/gdbinit/symbols
+source D:/FirstProject_CEEC/rfid_firmware/build/bootloader/gdbinit/connect

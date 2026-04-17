@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trạm Kiểm Soát IoT</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f4f7f6; padding: 30px 0; }
+        .card { border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        /* CSS cho cái công tắc (Toggle Switch) */
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #dc3545; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #28a745; }
+        input:checked + .slider:before { transform: translateX(26px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center text-primary mb-5">🖥️ BẢNG ĐIỀU KHIỂN TRUNG TÂM</h2>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h4 class="text-info border-bottom pb-2">📋 Danh sách thẻ hệ thống</h4>
+                    <table class="table table-hover mt-3">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Mã UID</th>
+                                <th>Tên thành viên</th>
+                                <th>Mã PIN</th>
+                                <th>Trạng thái</th>
+                                <th>Khóa / Mở Khóa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cards-table-body">
+                            <tr><td colspan="5" class="text-center">Đang tải dữ liệu...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card p-4 border-success">
+                    <h4 class="text-success border-bottom pb-2">➕ Thêm thẻ mới</h4>
+                    <form id="add-card-form" class="form-inline mt-3">
+                        <input type="text" class="form-control mb-2 mr-sm-2" id="uid-input" placeholder="Nhập mã UID..." required>
+                        <input type="text" class="form-control mb-2 mr-sm-2" id="name-input" placeholder="Nhập tên thành viên..." required>
+                        <button type="submit" class="btn btn-success mb-2 px-4">Cấp quyền</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h4 class="text-secondary border-bottom pb-2">🕰️ Lịch sử ra vào</h4>
+                    <table class="table table-striped mt-3">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Người dùng</th>
+                                <th>Phương thức</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr><td colspan="3" class="text-center">Đang tải dữ liệu...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
