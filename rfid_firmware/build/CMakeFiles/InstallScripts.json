@@ -157,8 +157,7 @@
 		"D:/FirstProject_CEEC/rfid_firmware/build/esp-idf/ulp/cmake_install.cmake",
 		"D:/FirstProject_CEEC/rfid_firmware/build/esp-idf/espressif__cjson/cmake_install.cmake",
 		"D:/FirstProject_CEEC/rfid_firmware/build/esp-idf/abobija__rc522/cmake_install.cmake",
-		"D:/FirstProject_CEEC/rfid_firmware/build/esp-idf/main/cmake_install.cmake",
-		"D:/FirstProject_CEEC/rfid_firmware/build/esp-idf/oled/cmake_install.cmake"
+		"D:/FirstProject_CEEC/rfid_firmware/build/esp-idf/main/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

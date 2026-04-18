@@ -199,4 +199,3 @@ $<TARGET_FILE:__idf_driver>
 $<TARGET_FILE:idf::main>
 $<TARGET_FILE:__idf_espressif__cjson>
 $<TARGET_FILE:__idf_abobija__rc522>
-$<TARGET_FILE:idf::oled>

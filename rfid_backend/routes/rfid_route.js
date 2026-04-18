@@ -9,7 +9,7 @@ router.post('/check', async (req, res) => {
         const { auth_type, credential } = req.body; 
 
         if (!auth_type || !credential) {
-            return res.status(400).json({ status: "error", allow_access: false, oled_message: "Thieu auth_type hoac credential" });
+            return res.status(400).json({ status: "error", allow_access: false, oled_message: "Thieu Data" });
         }
 
         // Logic phân loại tìm kiếm
@@ -19,7 +19,7 @@ router.post('/check', async (req, res) => {
         } else if (auth_type === 'pin') {
             searchQuery = { pin: credential };
         } else {
-            return res.status(400).json({ status: "error", allow_access: false, oled_message: "auth_type khong hop le" });
+            return res.status(400).json({ status: "error", allow_access: false, oled_message: "auth type sai" });
         }
 
         const user = await RfidCard.findOne(searchQuery);
@@ -37,17 +37,18 @@ router.post('/check', async (req, res) => {
                 await newLog.save(); // Lệnh này bắt Node.js chạy vào Database để lưu
                 console.log(`📝 Đã ghi vào sổ lịch sử: ${user.name} mở bằng ${auth_type}`);
                 // ---------------------------
+                const shortName = user.name.trim().split(' ').pop();
 
                 res.status(200).json({ 
                     status: "success", 
                     allow_access: true,
-                    oled_message: `Xin chao ${user.name}!` 
+                    oled_message: `Xin chao ${shortName}` 
                 });
             } else {
                 res.status(403).json({ status: "failed", allow_access: false, oled_message: "The bi khoa!" });
             }
         } else {
-            res.status(404).json({ status: "failed", allow_access: false, oled_message: "Sai the!" });
+            res.status(404).json({ status: "failed", allow_access: false, oled_message: "Sai the / PIN" });
         }
     } catch (error) {
         res.status(500).json({ status: "error", allow_access: false, oled_message: "Loi he thong", error: error.message });
@@ -86,7 +87,7 @@ router.post('/change-pin', async (req, res) => {
             return res.status(400).json({ 
                 status: "error", 
                 allow_access: false,
-                oled_message: "Thieu uid hoac new pin" 
+                oled_message: "Thieu data" 
             });
         }
 
@@ -97,14 +98,14 @@ router.post('/change-pin', async (req, res) => {
             return res.status(404).json({ 
                 status: "error", 
                 allow_access: false,
-                oled_message: "Quyen da bi thay doi!" 
+                oled_message: "Khong co quyen" 
             });
         }
         if(new_pin === user.pin){
             return res.status(400).json({
                 status: "error",
                 allow_access: false,
-                oled_message: "PIN moi phai khac!"
+                oled_message: "PIN moi phai khac"
             })
         }
         // 3. Nếu PIN cũ đúng -> Cập nhật PIN mới và lưu lại
@@ -115,7 +116,7 @@ router.post('/change-pin', async (req, res) => {
         res.status(200).json({ 
             status: "success", 
             allow_access: true,
-            oled_message: "Doi PIN OK!" 
+            oled_message: "Doi PIN thanh cong" 
         });
 
     } catch (error) {

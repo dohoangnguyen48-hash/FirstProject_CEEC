@@ -9,7 +9,7 @@
 #include "nvs_flash.h"      // Bắt buộc phải có để dùng nvs_flash_init
 #include "esp_netif.h"      // Bắt buộc phải có để dùng esp_netif_init
 #include "wifi_logic.h"
-//#include "oled.h"
+#include "oled.h"
 #include "keypad_logic.h"
 
 void app_main(void) {
@@ -21,6 +21,17 @@ void app_main(void) {
     }
     ESP_ERROR_CHECK(ret);
 
+    i2c_config_t conf = {
+        .mode = I2C_MODE_MASTER,
+        .sda_io_num = 21,
+        .scl_io_num = 22,
+        .sda_pullup_en = GPIO_PULLUP_ENABLE,
+        .scl_pullup_en = GPIO_PULLUP_ENABLE,
+        .master.clk_speed = 400000,
+    };
+    i2c_param_config(I2C_NUM_0, &conf);
+    i2c_driver_install(I2C_NUM_0, conf.mode, 0, 0, 0);
+
     // 2. KHỞI TẠO LÕI MẠNG VÀ SỰ KIỆN (Chỉ khởi tạo 1 lần duy nhất ở main)
     esp_netif_init();
     esp_event_loop_create_default();
@@ -30,7 +41,14 @@ void app_main(void) {
     rfid_init();
     keypad_init();
     
-    printf("HETHONG: Khoi tao hoan tat. San sang nhan phím...\n");
+    oled_init();
+    oled_clear();
+    oled_draw_string(5, 1, " HE THONG CUA ");
+    oled_draw_string(5, 3, " [ DO NGUYEN ] ");
+    oled_draw_string(5, 5, "    READY...   ");
+    oled_update();
+
+    printf("HETHONG: Khoi tao hoan tat. San sang...\n");
 
     // 4. Việc đọc thẻ đã có Task ngầm của thư viện lo.
     // Ở đây Giám đốc rảnh rỗi, chỉ việc ngồi chơi (hoặc làm việc khác)

@@ -3,6 +3,7 @@
 #include "esp_log.h"
 #include <string.h>
 #include "cJSON.h"
+#include "oled.h"
 
 static const char *TAG = "HTTP_CLIENT";
 #define SERVER_URL "http://10.117.25.132:3000/api/check"
@@ -71,11 +72,13 @@ void http_send_auth_request(const char* auth_type, const char* credential) {
                 
                 // Nếu tìm thấy chữ bên trong, in ra thật to!
                 if (oled_msg_item && oled_msg_item->valuestring) {
-                    ESP_LOGW("OLED_TINH_TRANG", "=================================");
-                    ESP_LOGW("OLED_TINH_TRANG", "DU KIEN IN RA MAN HINH: %s", oled_msg_item->valuestring);
-                    ESP_LOGW("OLED_TINH_TRANG", "=================================");
-                    
-                    // LÁT NỮA CHÚNG TA SẼ NHÉT HÀM `oled_draw_string` VÀO ĐÚNG CHỖ NÀY!
+                // In ra Terminal để check
+                ESP_LOGI(TAG, "OLED: %s", oled_msg_item->valuestring);
+    
+                // ĐẨY LÊN MÀN HÌNH THẬT
+                oled_clear();
+                oled_draw_string(0, 3, oled_msg_item->valuestring); 
+                oled_update();
                 }
                 
                 cJSON_Delete(json_response); // Đọc xong nhớ ném vỏ hộp đi để tránh tràn RAM
