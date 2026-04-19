@@ -1,0 +1,181 @@
+Command: C:\Espressif\tools\python\v6.0\venv\Scripts\python.exe C:\Software\ESP32\IDF\EIM_EXE\.espressif\v6.0\esp-idf\tools/idf_monitor.py -p COM5 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 D:\FirstProject_CEEC\rfid_firmware\build\firstProject_CEEC.elf D:\FirstProject_CEEC\rfid_firmware\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\tools\python\v6.0\venv\Scripts\python.exe' 'C:\Software\ESP32\IDF\EIM_EXE\.espressif\v6.0\esp-idf\tools\idf.py' '-p' 'COM5'
+
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.0 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr 19 2026 09:20:22�ets Jul 29 2019 12:21:46[0m
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.0 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr 19 2026 09:20:22[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (29) boot: chip revision: v3.1[0m
+[0;32mI (31) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (35) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (49) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=21c6ch (138348) map[0m
+[0;32mI (135) esp_image: segment 1: paddr=00031c94 vaddr=3ffb0000 size=0474ch ( 18252) load[0m
+[0;32mI (143) esp_image: segment 2: paddr=000363e8 vaddr=40080000 size=09c30h ( 39984) load[0m
+[0;32mI (159) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=a7968h (686440) map[0m
+[0;32mI (404) esp_image: segment 4: paddr=000e7990 vaddr=40089c30 size=0ea54h ( 59988) load[0m
+[0;32mI (429) esp_image: segment 5: paddr=000f63ec vaddr=50000000 size=00028h (    40) load[0m
+[0;32mI (441) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (441) boot: Disabling RNG early entropy source...[0m
+[0;32mI (452) cpu_start: Multicore app[0m
+[0;32mI (460) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (460) cpu_start: Pro cpu start user code[0m
+[0;32mI (460) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (462) app_init: Application information:[0m
+[0;32mI (466) app_init: Project name:     firstProject_CEEC[0m
+[0;32mI (471) app_init: App version:      00822c2-dirty[0m
+[0;32mI (475) app_init: Compile time:     Apr 19 2026 09:20:05[0m
+[0;32mI (480) app_init: ELF file SHA256:  8e205043f...[0m
+[0;32mI (484) app_init: ESP-IDF:          v6.0[0m
+[0;32mI (488) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (492) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (496) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (500) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (506) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (511) heap_init: At 3FFB9760 len 000268A0 (154 KiB): DRAM[0m
+[0;32mI (516) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (522) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (527) heap_init: At 40098684 len 0000797C (30 KiB): IRAM[0m
+[0;32mI (534) spi_flash: detected chip: generic[0m
+[0;32mI (536) spi_flash: flash io: dio[0m
+[0;33mW (539) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;33mW (552) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`[0m
+[0;32mI (563) main_task: Started on CPU0[0m
+[0;32mI (573) main_task: Calling app_main()[0m
+[0;32mI (613) wifi:wifi driver task: 3ffc13b8, prio:23, stack:6656, core=0[0m
+[0;32mI (623) wifi:wifi firmware version: 44738b4[0m
+[0;32mI (623) wifi:wifi certification version: v7.0[0m
+[0;32mI (623) wifi:config NVS flash: enabled[0m
+[0;32mI (623) wifi:config nano formatting: disabled[0m
+[0;32mI (633) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (633) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (643) wifi:Init management short buffer num: 32[0m
+[0;32mI (643) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (643) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (653) wifi:Init static rx buffer num: 10[0m
+[0;32mI (653) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (663) wifi_init: rx ba win: 6[0m
+[0;32mI (663) wifi_init: accept mbox: 6[0m
+[0;32mI (663) wifi_init: tcpip mbox: 32[0m
+[0;32mI (663) wifi_init: udp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp mbox: 6[0m
+[0;32mI (673) wifi_init: tcp tx win: 5760[0m
+[0;32mI (673) wifi_init: tcp rx win: 5760[0m
+[0;32mI (683) wifi_init: tcp mss: 1440[0m
+[0;32mI (683) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (683) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (693) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (773) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
+[0;32mI (803) wifi:mode : sta (f4:2d:c9:68:4d:e8)[0m
+[0;32mI (803) wifi:enable tsf[0m
+[0;32mI (803) RFID_LOGIC: Dang khoi tao RFID...[0m
+[0;32mI (803) WIFI_LOGIC: Dang thu ket noi den Wi-Fi...[0m
+[0;32mI (813) rc522: Initialized (firmware v2.0)[0m
+[0;32mI (833) wifi:new:<13,0>, old:<1,0>, ap:<255,255>, sta:<13,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (833) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (883) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (893) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (983) wifi:connected with Redmi 13, aid = 5, channel 13, BW20, bssid = de:d8:f5:eb:64:ed[0m
+[0;32mI (983) wifi:security: WPA2-PSK, phy: bgn, rssi: -47[0m
+[0;32mI (993) wifi:pm start, type: 1[0m
+
+[0;32mI (993) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (1033) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us[0m
+[0;32mI (1033) wifi:AP's beacon interval = 102400 us, DTIM period = 2[0m
+HETHONG: Khoi tao hoan tat. San sang...
+[0;32mI (2023) esp_netif_handlers: sta ip: 10.117.25.135, mask: 255.255.255.0, gw: 10.117.25.2[0m
+[0;32mI (2023) WIFI_LOGIC: KET NOI THANH CONG! IP cua ESP32 la: 10.117.25.135[0m
+[0;32mI (22653) HTTP_CLIENT: Dang gui data: {"auth_type":"pin","credential":"4321"}[0m
+[0;32mI (23683) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Do Hoang Nguyen"}[0m
+[0;32mI (33533) HTTP_CLIENT: Dang gui data: {"auth_type":"pin","credential":"0000"}[0m
+[0;32mI (34143) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (37303) wifi:<ba-add>idx:0 (ifx:0, de:d8:f5:eb:64:ed), tid:0, ssn:17, winSize:64[0m
+[0;32mI (39933) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (39933) RFID_LOGIC: Ma UID cua the la: 8635CFD6AA[0m
+[0;32mI (39933) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"8635CFD6AA"}[0m
+[0;32mI (39943) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"8635CFD6AA"}[0m
+[0;32mI (40263) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"failed","allow_access":false,"oled_message":"Sai the / PIN"}[0m
+[0;32mI (47443) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (47443) RFID_LOGIC: Ma UID cua the la: C8605D47B2[0m
+[0;32mI (47443) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"C8605D47B2"}[0m
+[0;32mI (47453) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"C8605D47B2"}[0m
+[0;32mI (48033) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Do Hoang Nguyen"}[0m
+[0;32mI (76723) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (76723) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (76723) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (76733) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (77123) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (83053) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (83053) RFID_LOGIC: Ma UID cua the la: 89E01D0175[0m
+[0;32mI (83053) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"89E01D0175"}[0m
+[0;32mI (83063) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"89E01D0175"}[0m
+[0;32mI (83373) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"failed","allow_access":false,"oled_message":"Sai the / PIN"}[0m
+[0;32mI (97833) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (97833) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (97833) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (97843) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (98213) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (203993) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (203993) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (203993) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (204003) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (204513) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (219683) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (219683) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (219683) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (219693) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (220083) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (245903) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (245903) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (245903) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (245913) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (246293) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (278233) wifi:[ADDBA]RX DELBA, reason:1, delete tid:0, initiator:0(recipient)[0m
+[0;32mI (280833) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (280833) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (280833) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (280843) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (281313) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (315973) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (315973) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (315973) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (315983) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (316343) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (339183) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (339183) RFID_LOGIC: Ma UID cua the la: B633FF7903[0m
+[0;32mI (339183) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (339193) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"B633FF7903"}[0m
+[0;32mI (339693) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Dang Quang Vinh"}[0m
+[0;32mI (707683) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (707683) RFID_LOGIC: Ma UID cua the la: 8635CFD6AA[0m
+[0;32mI (707683) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"8635CFD6AA"}[0m
+[0;32mI (707693) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"8635CFD6AA"}[0m
+[0;32mI (708133) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Vo Thanh Long"}[0m
+[0;32mI (889053) RFID_LOGIC: PHAT HIEN THE![0m
+[0;32mI (889053) RFID_LOGIC: Ma UID cua the la: C8605D47B2[0m
+[0;32mI (889053) RFID_LOGIC: Da dong goi JSON: {"action":"verify_access","auth_type":"rfid","credential":"C8605D47B2"}[0m
+[0;32mI (889063) HTTP_CLIENT: Dang gui data: {"auth_type":"rfid","credential":"C8605D47B2"}[0m
+[0;32mI (889383) HTTP_CLIENT: <<< SERVER TRA VE JSON: {"status":"success","allow_access":true,"oled_message":"Xin Chao,","oled_name":"Do Hoang Nguyen"}[0m

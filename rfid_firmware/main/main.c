@@ -42,12 +42,10 @@ void app_main(void) {
     keypad_init();
     
     oled_init();
-    oled_clear();
-    oled_draw_string(5, 1, " HE THONG CUA ");
-    oled_draw_string(5, 3, " [ DO NGUYEN ] ");
-    oled_draw_string(5, 5, "    READY...   ");
-    oled_update();
-
+    oled_clear(); // Xóa sạch rác trong RAM OLED
+    oled_draw_string(10, 3, "Quet hoac nhap PIN"); // In trạng thái mặc định
+    oled_update(); // Bơm ra màn hình
+    
     printf("HETHONG: Khoi tao hoan tat. San sang...\n");
 
     // 4. Việc đọc thẻ đã có Task ngầm của thư viện lo.
