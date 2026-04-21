@@ -6,7 +6,7 @@
 
 static const char *TAG = "WIFI_LOGIC";
 
-// Hàm "Bẫy sự kiện" - Lắng nghe các thay đổi của Wi-Fi
+// Hàm bắt sự kiện. Khi wifi thay đổi, nó sẽ tự động chạy vào hàm này.
 static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         // Mạch vừa khởi động Wi-Fi xong -> Ra lệnh kết nối
@@ -27,18 +27,18 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t e
 
 // Hàm khởi tạo Wi-Fi chính
 void wifi_init_sta(void) {
-    // 1. Tạo giao diện mạng mặc định
+    // Tạo giao diện mạng mặc định
     esp_netif_create_default_wifi_sta();
 
-    // 2. Khởi tạo cấu hình Wi-Fi với thông số mặc định của nhà máy
+    // Khởi tạo cấu hình Wi-Fi với thông số mặc định
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     esp_wifi_init(&cfg);
 
-    // 3. Đăng ký các bẫy sự kiện (Bắt lỗi rớt mạng, bắt sự kiện có IP)
+    // Đăng ký các bẫy sự kiện (Bắt lỗi rớt mạng, bắt sự kiện có IP)
     esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL, NULL);
     esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL, NULL);
 
-    // 4. Nạp tên và mật khẩu Wi-Fi từ file .h
+    // Nạp tên và mật khẩu Wi-Fi từ file .h
     wifi_config_t wifi_config = {
         .sta = {
             .ssid = WIFI_SSID,
@@ -47,10 +47,9 @@ void wifi_init_sta(void) {
         },
     };
 
-    // 5. Cài đặt chế độ Trạm (Station - Đi kết nối vào cục Router)
+    //Cài đặt chế độ Trạm (Station - Đi kết nối vào cục Router)
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
     
-    // 6. Bấm nút "Start"
     esp_wifi_start();
 }

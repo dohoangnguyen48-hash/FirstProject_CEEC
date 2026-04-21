@@ -22,6 +22,18 @@ static void oled_send_cmd(uint8_t cmd) {
 }
 
 void oled_init(void) {
+    // Cấu hình chân
+    i2c_config_t conf = {
+        .mode = I2C_MODE_MASTER,
+        .sda_io_num = 21,
+        .scl_io_num = 22,
+        .sda_pullup_en = GPIO_PULLUP_ENABLE,
+        .scl_pullup_en = GPIO_PULLUP_ENABLE,
+        .master.clk_speed = 400000,
+    };
+    i2c_param_config(I2C_NUM_0, &conf);
+    i2c_driver_install(I2C_NUM_0, conf.mode, 0, 0, 0);
+
     vTaskDelay(100 / portTICK_PERIOD_MS);
     uint8_t init_cmds[] = {
         0xAE, 0xD5, 0x80, 0xA8, 0x3F, 0xD3, 0x00, 0x40,

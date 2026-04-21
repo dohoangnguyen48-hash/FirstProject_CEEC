@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchHistory();
-    fetchCards(); // Gọi thêm hàm tải danh sách thẻ
+    fetchCards(); // Tải lại bảng danh sách thẻ để thấy thẻ mới
 });
 
 // Hàm 1: Lấy danh sách thẻ
@@ -53,7 +53,7 @@ async function toggleCardStatus(uid) {
     }
 }
 
-// Hàm 3: Lấy Lịch sử (Giữ nguyên như cũ)
+// Hàm 3: Lấy Lịch sử
 async function fetchHistory() {
     try {
         const response = await fetch('/api/history');

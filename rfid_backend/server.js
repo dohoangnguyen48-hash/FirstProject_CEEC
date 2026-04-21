@@ -17,15 +17,15 @@ const rfidRoutes = require('./routes/rfid_route');
 app.use('/api', rfidRoutes); 
 
 // 3. Kết nối với Cơ sở dữ liệu MongoDB Atlas
-console.log("⏳ Đang thử kết nối đến MongoDB Atlas...");
+console.log("Đang thử kết nối đến MongoDB Atlas...");
 mongoose.connect(process.env.MONGO_URI, {
-  family: 4 // BÍ QUYẾT: Ép Node.js dùng IPv4, vượt qua cái lỗi phân giải mạng hôm trước
+  family: 4 // Ép Node.js dùng IPv4
 })
-  .then(() => console.log('✅ THÀNH CÔNG: Đã kết nối xuyên suốt tới Database!'))
-  .catch((error) => console.error('❌ Lỗi kết nối MongoDB:', error.message));
+  .then(() => console.log('SUCCESS: Đã kết nối xuyên suốt tới Database!'))
+  .catch((error) => console.error('FAIL: Lỗi kết nối MongoDB:', error.message));
 
 // 4. Khởi động Server và giữ nó chạy liên tục
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`🚀 Server đang thức và lắng nghe tại cổng: ${PORT}`);
+  console.log(`Server đang hoạt động và lắng nghe tại cổng: ${PORT}`);
 });

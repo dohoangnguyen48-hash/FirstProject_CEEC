@@ -28,14 +28,14 @@ router.post('/check', async (req, res) => {
             if (user.status === 'active') {
                 
                 // --- BẮT ĐẦU GHI LỊCH SỬ ---
-                // Tạo một bản ghi mới nhét vào cuốn sổ History
+                // Tạo một bản ghi mới nhét vào  History
                 const newLog = new History({
-                    uid: user.uid, // Lấy UID của người vừa quẹt
-                    name: user.name, // Lấy tên
-                    auth_type: auth_type // Ghi nhận hình thức mở cửa
+                    uid: user.uid, 
+                    name: user.name, 
+                    auth_type: auth_type
                 });
-                await newLog.save(); // Lệnh này bắt Node.js chạy vào Database để lưu
-                console.log(`📝 Đã ghi vào sổ lịch sử: ${user.name} mở bằng ${auth_type}`);
+                await newLog.save(); // Lệnh để Node.js vào Database để lưu
+                console.log(`Đã ghi vào sổ lịch sử: ${user.name} mở bằng ${auth_type}`);
                 // ---------------------------
 
                 res.status(200).json({ 
@@ -71,7 +71,7 @@ router.get('/history', async (req, res) => {
             data: logs 
         });
     } catch (error) {
-        res.status(500).json({ status: "error", message: "Lỗi khi lấy lịch sử", error: error.message });
+        res.status(500).json({ status: "error", message: "Lỗi khi lấy lich sử", error: error.message });
     }
 });
 
@@ -82,7 +82,7 @@ router.post('/change-pin', async (req, res) => {
     try {
         const { uid, old_pin, new_pin } = req.body;
 
-        // 1. Kiểm tra xem ESP32/Web có gửi thiếu thông tin không
+        // 1. Kiểm tra xem ESP32 có gửi thiếu thông tin không
         if (!uid || !old_pin || !new_pin) {
             return res.status(400).json({ 
                 status: "error", 
@@ -98,11 +98,11 @@ router.post('/change-pin', async (req, res) => {
             return res.status(404).json({ 
                 status: "error", 
                 allow_access: false,
-                oled_message: "The khong ton tai" 
+                oled_message: "Sai the / PIN" 
             });
         }
         if (user.pin !== old_pin) {
-            return res.status(401).json({ // 401 Unauthorized
+            return res.status(401).json({ 
                 status: "error", 
                 allow_access: false,
                 oled_message: "Sai PIN cu" 
@@ -113,7 +113,7 @@ router.post('/change-pin', async (req, res) => {
             return res.status(400).json({
                 status: "error",
                 allow_access: false,
-                oled_message: "PIN phai khac cu"
+                oled_message: "PIN moi phai khac cu"
             });
         }
         
@@ -152,7 +152,7 @@ async function generateUniquePin() {
         // Sinh số ngẫu nhiên từ 1000 đến 9999
         newPin = Math.floor(1000 + Math.random() * 9000).toString();
         
-        // Chọc vào Database kiểm tra
+        // Vào Database kiểm tra
         const existingPin = await RfidCard.findOne({ pin: newPin });
         
         if (!existingPin) {

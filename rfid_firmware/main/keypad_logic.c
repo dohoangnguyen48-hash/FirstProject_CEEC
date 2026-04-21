@@ -17,11 +17,10 @@ const char KEYMAP[4][4] = {
     {'7', '8', '9', 'C'},
     {'*', '0', '#', 'D'}
 };
-static char pin_buffer[10] = ""; 
-static int pin_index = 0;
-static uint32_t last_keypress_time = 0;
+static char pin_buffer[10] = ""; //Lưu các số đã được bấm cho việc kiểm tra
+static int pin_index = 0; //Biến đếm (con trỏ) chỉ xem người dùng đã bấm được bao nhiêu số rồi (đồng thời nó chỉ ra vị trí của ký tự kết thúc \0)
+static uint32_t last_keypress_time = 0; // Lưu lại thời điểm cuối cùng có người chạm vào bàn phím.
 
-// === THÊM CÁC BIẾN NÀY LÊN TRÊN CÙNG (Dưới các thư viện) ===
 typedef enum {
     MODE_NORMAL,            // Chờ mở cửa bình thường
     MODE_PROMPT_CHANGE_PIN, // Chờ 3s xem có bấm * để đổi PIN không
@@ -33,12 +32,13 @@ static app_mode_t current_mode = MODE_NORMAL;
 static uint32_t mode_timer = 0; // Bộ đếm giờ cho lời chào
 
 // Các biến lưu trữ tạm thời
-static char saved_uid[20] = "";
-static char old_pin[5] = "";
+static char saved_uid[20] = ""; // Lưu UID của người muốn đổi PIN
+static char old_pin[5] = ""; //Tương tự pin_buffer và pin_index
 static char new_pin[5] = "";
 static int old_len = 0;
 static int new_len = 0;
 
+// Khởi tạo các chân GPIO
 void keypad_init(void) {
     for (int i = 0; i < 4; i++) {
         gpio_reset_pin(ROW_PINS[i]);
@@ -51,6 +51,7 @@ void keypad_init(void) {
     }
 }
 
+//Hàm đọc phím, trả về \0 nếu không nhấn
 char keypad_get_key(void) {
     for (int r = 0; r < 4; r++) {
         gpio_set_level(ROW_PINS[r], 0);
@@ -76,7 +77,7 @@ char keypad_get_key(void) {
 void reset_to_normal_mode() {
     current_mode = MODE_NORMAL;
     pin_index = 0;
-    memset(pin_buffer, 0, sizeof(pin_buffer));
+    memset(pin_buffer, 0, sizeof(pin_buffer)); // Gán toàn bộ vùng nhớ của pin_buffer về '\0' -> chuỗi rỗng 
     oled_clear();
     oled_draw_string(10, 3, "Quet hoac nhap PIN");
     oled_update();
@@ -107,7 +108,7 @@ void draw_change_pin_ui() {
 // HTTP gọi hàm này khi quét thẻ thành công
 void keypad_trigger_change_pin_prompt(const char* uid, const char* name) {
     current_mode = MODE_PROMPT_CHANGE_PIN;
-    strncpy(saved_uid, uid, sizeof(saved_uid)); // Nhớ mặt người vừa quẹt thẻ
+    strncpy(saved_uid, uid, sizeof(saved_uid)); // Nhớ uid người vừa quẹt thẻ
     mode_timer = xTaskGetTickCount() * portTICK_PERIOD_MS;
     
     oled_clear();
