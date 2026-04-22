@@ -5,7 +5,6 @@
 #include "http_client_logic.h"
 #include <string.h>
 #include "oled.h"
-#include "http_client_logic.h"
 
 // Định nghĩa chân cắm
 const int ROW_PINS[4] = {13, 12, 14, 27};
@@ -25,10 +24,11 @@ typedef enum {
     MODE_NORMAL,            // Chờ mở cửa bình thường
     MODE_PROMPT_CHANGE_PIN, // Chờ 3s xem có bấm * để đổi PIN không
     MODE_INPUT_OLD_PIN,     // Đang nhập PIN cũ
-    MODE_INPUT_NEW_PIN      // Đang nhập PIN mới
+    MODE_INPUT_NEW_PIN,      // Đang nhập PIN mới
+    MODE_WIFI_CONNECTING    // Trạng thái wifi
 } app_mode_t;
 
-static app_mode_t current_mode = MODE_NORMAL;
+static app_mode_t current_mode = MODE_WIFI_CONNECTING;
 static uint32_t mode_timer = 0; // Bộ đếm giờ cho lời chào
 
 // Các biến lưu trữ tạm thời
@@ -73,53 +73,35 @@ char keypad_get_key(void) {
     return '\0';
 }
 
-// Hàm Reset hệ thống về mặc định
 void reset_to_normal_mode() {
     current_mode = MODE_NORMAL;
     pin_index = 0;
-    memset(pin_buffer, 0, sizeof(pin_buffer)); // Gán toàn bộ vùng nhớ của pin_buffer về '\0' -> chuỗi rỗng 
-    oled_clear();
-    oled_draw_string(10, 3, "Quet hoac nhap PIN");
-    oled_update();
+    memset(pin_buffer, 0, sizeof(pin_buffer)); 
+    oled_show_default_screen(); 
 }
 
-// Hàm vẽ Giao diện Đổi PIN
-void draw_change_pin_ui() {
-    oled_clear();
-    oled_draw_string(0, 1, "Ma PIN cu: ");
-    char star_old[5] = {0};
-    for(int i=0; i<old_len; i++) star_old[i] = '*';
-    oled_draw_string(70, 1, star_old);
-
-    oled_draw_string(0, 4, "Ma PIN moi: ");
-    char star_new[5] = {0};
-    for(int i=0; i<new_len; i++) star_new[i] = '*';
-    oled_draw_string(75, 4, star_new);
-
-    // Mũi tên chỉ dẫn đang ở bước nào
-    if (current_mode == MODE_INPUT_OLD_PIN) {
-        oled_draw_string(0, 7, "-> Nhap PIN cu [#]");
-    } else {
-        oled_draw_string(0, 7, "-> Nhap PIN moi [#]");
-    }
-    oled_update();
+void keypad_set_wifi_connecting(void) {
+    current_mode = MODE_WIFI_CONNECTING;
+    oled_show_wifi_connecting(); 
 }
 
-// HTTP gọi hàm này khi quét thẻ thành công
+void keypad_set_wifi_connected(void) {
+    reset_to_normal_mode(); 
+}
+
 void keypad_trigger_change_pin_prompt(const char* uid, const char* name) {
     current_mode = MODE_PROMPT_CHANGE_PIN;
-    strncpy(saved_uid, uid, sizeof(saved_uid)); // Nhớ uid người vừa quẹt thẻ
+    strncpy(saved_uid, uid, sizeof(saved_uid)); 
     mode_timer = xTaskGetTickCount() * portTICK_PERIOD_MS;
-    
-    oled_clear();
-    oled_draw_string(20, 1, "Xin Chao,");
-    oled_draw_string(0, 3, name);
-    oled_draw_string(0, 6, "Bam * de doi PIN");
-    oled_update();
+    oled_show_change_pin_prompt(name);
 }
 
 //Hàm xử lí logic chính
 void keypad_handle_input(void) {
+    
+    if (current_mode == MODE_WIFI_CONNECTING) {
+        return; // Đang mất mạng, thoát hàm luôn, không cho bấm phím gì cả!
+    }
     uint32_t current_time = xTaskGetTickCount() * portTICK_PERIOD_MS;
 
     // --- XỬ LÝ TIMEOUT CHO TỪNG TRẠNG THÁI ---
@@ -143,21 +125,21 @@ void keypad_handle_input(void) {
                 current_mode = MODE_INPUT_OLD_PIN;
                 old_len = 0; new_len = 0;
                 memset(old_pin, 0, 5); memset(new_pin, 0, 5);
-                draw_change_pin_ui();
+                oled_show_change_pin_step(1, old_len, new_len);
             }
         }
         // === ĐANG NHẬP PIN CŨ ===
         else if (current_mode == MODE_INPUT_OLD_PIN) {
             if (key >= '0' && key <= '9' && old_len < 4) { // Tối đa 4 số, bấm dư không nhận
                 old_pin[old_len++] = key; old_pin[old_len] = '\0';
-                draw_change_pin_ui();
+                oled_show_change_pin_step(1, old_len, new_len);
             } else if (key == '*') { // Nút xóa lùi
                 if (old_len > 0) old_pin[--old_len] = '\0';
-                draw_change_pin_ui();
+                oled_show_change_pin_step(1, old_len, new_len);
             } else if (key == '#') {
                 if (old_len == 4) { // Đủ 4 số mới cho xuống dòng
                     current_mode = MODE_INPUT_NEW_PIN;
-                    draw_change_pin_ui();
+                    oled_show_change_pin_step(2, old_len, new_len);
                 }
             }
         }
@@ -165,14 +147,13 @@ void keypad_handle_input(void) {
         else if (current_mode == MODE_INPUT_NEW_PIN) {
             if (key >= '0' && key <= '9' && new_len < 4) {
                 new_pin[new_len++] = key; new_pin[new_len] = '\0';
-                draw_change_pin_ui();
+                oled_show_change_pin_step(2, old_len, new_len);
             } else if (key == '*') { // Nút xóa lùi
                 if (new_len > 0) new_pin[--new_len] = '\0';
-                draw_change_pin_ui();
+                oled_show_change_pin_step(2, old_len, new_len);
             } else if (key == '#') {
                 if (new_len == 4) {
-                    oled_clear(); oled_draw_string(20, 3, "DANG DOI PIN..."); oled_update();
-                    
+                    oled_show_processing_msg("DANG DOI PIN...");
                     // GỌI API ĐỔI PIN LÊN SERVER
                     http_send_change_pin_request(saved_uid, old_pin, new_pin);
                     
@@ -185,26 +166,18 @@ void keypad_handle_input(void) {
             if (key >= '0' && key <= '9') {
                 if (pin_index < 4) {
                     pin_buffer[pin_index++] = key; pin_buffer[pin_index] = '\0';
-                    oled_clear(); oled_draw_string(10, 3, "Ma PIN: ");
-                    char star_str[10] = {0};
-                    for(int i = 0; i < pin_index; i++) star_str[i] = '*';
-                    oled_draw_string(60, 3, star_str); 
-                    oled_update();
+                    oled_show_normal_pin_input(pin_index);
                 }
             } 
             else if (key == '*') {
                 if (pin_index > 0) {
                     pin_buffer[--pin_index] = '\0';
-                    oled_clear(); oled_draw_string(10, 3, "Ma PIN: ");
-                    char star_str[10] = {0};
-                    for(int i = 0; i < pin_index; i++) star_str[i] = '*';
-                    oled_draw_string(60, 3, star_str); 
-                    oled_update();
+                    oled_show_normal_pin_input(pin_index);
                 }
             } 
             else if (key == '#') {
                 if (pin_index == 4) {
-                    oled_clear(); oled_draw_string(20, 3, "DANG XU LY..."); oled_update();
+                    oled_show_processing_msg("DANG XU LY...");
                     http_send_auth_request("pin", pin_buffer); // Gửi API mở cửa
                     pin_index = 0; pin_buffer[0] = '\0';
                 }

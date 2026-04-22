@@ -25,15 +25,11 @@ void app_main(void) {
     esp_netif_init();
     esp_event_loop_create_default();
 
-    // KHỞI TẠO CÁC MODULE CỦA DỰ ÁN
-    wifi_init_sta(); 
+    // KHỞI TẠO CÁC MODULE CỦA DỰ ÁN 
     rfid_init();
     keypad_init();
-    
     oled_init();
-    oled_clear(); 
-    oled_draw_string(10, 3, "Quet hoac nhap PIN"); 
-    oled_update(); 
+    wifi_init_sta();
     
     printf("HE THONG: Khoi tao hoan tat. San sang...\n");
 

@@ -45,7 +45,7 @@ router.post('/check', async (req, res) => {
                     oled_name: user.name 
                 });
             } else {
-                res.status(403).json({ status: "failed", allow_access: false, oled_message: "The bi khoa!" });
+                res.status(403).json({ status: "failed", allow_access: false, oled_message: "The bi khoa" });
             }
         } else {
             res.status(404).json({ status: "failed", allow_access: false, oled_message: "Sai the / PIN" });
@@ -124,7 +124,7 @@ router.post('/change-pin', async (req, res) => {
             return res.status(400).json({ 
                 status: "error", 
                 allow_access: false, 
-                oled_message: "PIN bi trung!" 
+                oled_message: "PIN bi trung" 
             });
         }
         // 3. Nếu PIN cũ đúng -> Cập nhật PIN mới và lưu lại

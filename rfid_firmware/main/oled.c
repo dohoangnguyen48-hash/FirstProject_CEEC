@@ -4,6 +4,7 @@
 #include "freertos/task.h"
 #include <string.h>
 #include "font.h" 
+#include "keypad_logic.h"
 
 #define OLED_I2C_ADDRESS 0x3C
 #define I2C_MASTER_NUM I2C_NUM_0
@@ -79,4 +80,81 @@ void oled_draw_string(uint8_t x, uint8_t page, const char *str) {
         x += 6;
         str++;
     }
+}
+
+// Hàm vẽ Giao diện Đổi PIN
+void oled_show_change_pin_step(int step, int old_len, int new_len) {
+    oled_clear();
+    oled_draw_string(0, 1, "Ma PIN cu: ");
+    char star_old[5] = {0};
+    for(int i=0; i<old_len; i++) star_old[i] = '*';
+    oled_draw_string(70, 1, star_old);
+
+    oled_draw_string(0, 4, "Ma PIN moi: ");
+    char star_new[5] = {0};
+    for(int i=0; i<new_len; i++) star_new[i] = '*';
+    oled_draw_string(75, 4, star_new);
+
+    // Dùng biến "step" truyền vào từ bên ngoài thay vì dùng current_mode
+    if (step == 1) {
+        oled_draw_string(0, 7, "-> Nhap PIN cu [#]");
+    } else {
+        oled_draw_string(0, 7, "-> Nhap PIN moi [#]");
+    }
+    oled_update();
+}
+
+// Hàm Reset hệ thống về mặc định
+void oled_show_default_screen(void) {
+    oled_clear();
+    oled_draw_string(10, 3, "Quet hoac nhap PIN");
+    oled_update();
+}
+
+// Hàm vẽ màn hình đang kết nối mạng
+void oled_show_wifi_connecting(void) {
+    oled_clear();
+    oled_draw_string(10, 2, "DANG KET NOI");
+    oled_draw_string(30, 5, "WIFI...");
+    oled_update();
+}
+
+// HTTP gọi hàm này khi quét thẻ thành công
+void oled_show_change_pin_prompt(const char* name) {
+    oled_clear();
+    oled_draw_string(20, 1, "Xin Chao,");
+    oled_draw_string(0, 3, name);
+    oled_draw_string(0, 6, "Bam * de doi PIN");
+    oled_update();
+}
+
+
+void oled_show_normal_pin_input(int pin_len){
+    oled_clear(); 
+    oled_draw_string(10, 3, "Ma PIN: ");
+    char star_str[10] = {0};
+    for(int i = 0; i < pin_len; i++) star_str[i] = '*';
+    oled_draw_string(60, 3, star_str); 
+    oled_update();
+}
+
+void oled_show_processing_msg(const char* msg){
+    oled_clear(); 
+    oled_draw_string(20, 3, msg); 
+    oled_update();
+}
+
+// Hàm vẽ lời chào khi nhập mã PIN thành công
+void oled_show_auth_success_pin(const char* msg, const char* name) {
+    oled_clear();
+    oled_draw_string(20, 2, msg);
+    oled_draw_string(0, 5, name);
+    oled_update();
+}
+
+// Hàm vẽ các thông báo chung (Lỗi mạng, Sai mã, Đổi PIN thành công...)
+void oled_show_message(const char* msg) {
+    oled_clear();
+    oled_draw_string(10, 3, msg);
+    oled_update();
 }

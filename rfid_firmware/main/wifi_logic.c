@@ -3,6 +3,7 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include <string.h>
+#include "keypad_logic.h"
 
 static const char *TAG = "WIFI_LOGIC";
 
@@ -10,16 +11,19 @@ static const char *TAG = "WIFI_LOGIC";
 static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         // Mạch vừa khởi động Wi-Fi xong -> Ra lệnh kết nối
+        keypad_set_wifi_connecting();
         esp_wifi_connect();
         ESP_LOGI(TAG, "Dang thu ket noi den Wi-Fi...");
     } 
     else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         // Nếu rớt mạng hoặc sai mật khẩu -> Tự động thử kết nối lại
+        keypad_set_wifi_connecting();
         ESP_LOGW(TAG, "Mat ket noi Wi-Fi. Dang thu lai...");
         esp_wifi_connect();
     } 
     else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         // Nhận được IP từ cục Router -> Kết nối thành công 100%
+        keypad_set_wifi_connected();
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "KET NOI THANH CONG! IP cua ESP32 la: " IPSTR, IP2STR(&event->ip_info.ip));
     }

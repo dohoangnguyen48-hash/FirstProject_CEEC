@@ -78,43 +78,35 @@ void http_send_auth_request(const char* auth_type, const char* credential) {
                         if(strcmp(auth_type, "rfid") == 0) {
                             keypad_trigger_change_pin_prompt(credential, oled_name->valuestring);
                         }
-                        
                         // Nhập PIN: Chỉ in lời chào 3 giây rồi quay về mặc định
                         else {
-                            oled_clear();
-                            oled_draw_string(20, 2, oled_msg->valuestring);
-                            oled_draw_string(0, 5, oled_name->valuestring);
-                            oled_update();
-                            
+                            oled_show_auth_success_pin(oled_msg->valuestring, oled_name->valuestring);
                             vTaskDelay(pdMS_TO_TICKS(3000));
-                            
-                            oled_clear();
-                            oled_draw_string(10, 3, "Quet hoac nhap PIN");
-                            oled_update();
+                            oled_show_default_screen();
                         }
                     } 
                     
                     // --- NẾU BÁO LỖI ---
                     else {
-                        oled_clear();
-                        oled_draw_string(10, 3, oled_msg->valuestring);
-                        oled_update();
-                        
+                        oled_show_message(oled_msg->valuestring);
                         vTaskDelay(pdMS_TO_TICKS(3000));
-                        
-                        oled_clear();
-                        oled_draw_string(10, 3, "Quet hoac nhap PIN");
-                        oled_update();
+                        oled_show_default_screen();
                     }
                 }
                 cJSON_Delete(json_response);
             }
             else {
+                oled_show_message("Loi mang");
+                vTaskDelay(pdMS_TO_TICKS(3000));
+                oled_show_default_screen();
                 ESP_LOGE(TAG, "Không đọc được JSON từ server");
             }
         }
     } 
     else {
+        oled_show_message("Loi mang");
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        oled_show_default_screen();
         ESP_LOGE(TAG, "Lỗi kết nối server: %s", esp_err_to_name(err));
     }
 
@@ -140,26 +132,31 @@ void http_send_change_pin_request(const char* uid, const char* old_pin, const ch
     snprintf(post_data, sizeof(post_data), "{\"uid\":\"%s\",\"old_pin\":\"%s\",\"new_pin\":\"%s\"}", uid, old_pin, new_pin);
     
     esp_http_client_set_post_field(client, post_data, strlen(post_data));
-
-    if (esp_http_client_perform(client) == ESP_OK && rcv_len > 0) {
+    esp_err_t err = esp_http_client_perform(client);
+    if ( err == ESP_OK && rcv_len > 0) {
         cJSON *json_response = cJSON_Parse(rcv_buffer);
         if (json_response != NULL) {
             cJSON *oled_msg = cJSON_GetObjectItem(json_response, "oled_message");
             if (oled_msg && oled_msg->valuestring) {
                 // In kết quả đổi PIN
-                oled_clear();
-                oled_draw_string(10, 3, oled_msg->valuestring);
-                oled_update();
-                
+                oled_show_message(oled_msg->valuestring);
                 vTaskDelay(pdMS_TO_TICKS(3000)); // Hiện 3s
-                
-                // Trả về mặc định
-                oled_clear();
-                oled_draw_string(10, 3, "Quet hoac nhap PIN");
-                oled_update();
+                oled_show_default_screen();
             }
             cJSON_Delete(json_response);
         }
+        else{
+            oled_show_message("Loi mang");
+            vTaskDelay(pdMS_TO_TICKS(3000));
+            oled_show_default_screen();
+        }
+
+    }
+    else{
+        oled_show_message("Loi mang");
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        oled_show_default_screen();
+        ESP_LOGE(TAG, "Lỗi kết nối server khi đổi PIN: %s", esp_err_to_name(err));
     }
     esp_http_client_cleanup(client);
 }
